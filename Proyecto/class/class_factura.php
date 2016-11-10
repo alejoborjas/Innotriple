@@ -41,9 +41,12 @@
     }
 
     public static function agregarFactura($conexion, $nombre, $apellido, $direccion){
-    	$sql = "INSERT INTO tbl_usuarios VALUES (".$nombre.", ".$apellido.", ".$direccion.")";
+        $sql = sprintf("INSERT INTO tbl_usuarios VALUES (NULL, '%s','%s','%s')",
+            $nombre,
+            $apellido,
+            $direccion
+        );
     	$ingreso = $conexion->ejecutarInstruccion($sql);
-
     }
 }
 ?>
