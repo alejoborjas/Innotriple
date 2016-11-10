@@ -47,7 +47,6 @@
             $direccion
         );
     	$ingreso = $conexion->ejecutarInstruccion($sql);
-        echo $sql;
     }
 }
 ?>
