@@ -83,6 +83,23 @@ class Pulsera
     	$conexion->liberarResultado($resultado);
     }
 
+    public static function generarSlcPulseras($conexion){
+        $sql = "
+            SELECT codigo_pulsera, imagen, disponibles, precio 
+            FROM tbl_pulseras 
+        ";
+
+        $resultado = $conexion->ejecutarInstruccion($sql);
+
+        echo "<select name='pulsera' id='pulsera'>";
+        while ($fila = $conexion->obtenerFila($resultado)) {
+            echo "<option value='".$fila["codigo_pulsera"]."'>";
+            echo "Pulsera #".$fila["codigo_pulsera"];
+            echo "</option>";
+        }
+        echo "</select>";
+        $conexion->liberarResultado($resultado);
+    }
 }
 
 ?>

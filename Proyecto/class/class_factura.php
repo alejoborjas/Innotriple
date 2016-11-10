@@ -32,21 +32,27 @@
         return $this;
     }
 
-    public static function generarApartado($conexion, $codigo_pulsera){
-    	$sql = "SELECT codigo_usuario, codigo_pulsera 
-    	FROM tbl_apartados 
-    	WHERE codigo_pulsera = ".$codigo_pulsera;
-    	$resultado = $conexion->ejecutarInstruccion($sql);
-    	$conexion->liberarResultado($resultado);
+    public function generarFactura($conexion){
+        $sql = sprintf("
+            SELECT a.codigo_usuario, a.nombre, a.apellido, a.direccion, b.codigo_pulsera, b.imagen, b.precio
+            FROM tbl_usuarios a
+            INNER JOIN tbl_pulseras b
+            WHERE (a.codigo_usuario = '%s')
+            AND (b.codigo_pulsera = '%s')",
+            $this->codigo_usuario,
+            $this->codigo_pulsera
+        );
+        $resultado = $conexion->ejecutarInstruccion($sql);
+        echo "<h3>";
+        while ($fila = $conexion->obtenerFila($resultado)) {
+            echo "NOMBRE: ".$fila["nombre"]." ".$fila["apellido"]."<br>";
+            echo "DIRECCION: ".$fila["direccion"]."<br>";
+            echo "PRECIO: ".$fila["precio"]."<br>";
+            echo "PULSERA #".$fila["codigo_pulsera"].": <img src='".$fila["imagen"]."' height='42' width='42'><br>";
+        }
+        echo "</h3>";
+        $conexion->liberarResultado($resultado);
     }
 
-    public static function agregarFactura($conexion, $nombre, $apellido, $direccion){
-        $sql = sprintf("INSERT INTO tbl_usuarios VALUES (NULL, '%s','%s','%s')",
-            $nombre,
-            $apellido,
-            $direccion
-        );
-    	$ingreso = $conexion->ejecutarInstruccion($sql);
-    }
 }
 ?>
