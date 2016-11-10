@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1 align="center">Aparte su pulsera</h1>
-	<form method="POST">
+	<form method="POST" action="apartar.php">
   		Nombre:
   		<input type="text" name="nombre" id="nombre" placeholder="Ingrese su Nombre"></input>
   		<br>
@@ -24,11 +24,13 @@
   		<br>
 	</form>
 	<?php
-	$nombre = $_POST['nombre'];
-	$apellido = $_POST['apellido'];
-	$direccion = $_POST['direccion'];
+		if (isset($_POST["nombre"]) && isset($_POST["apellido"]) && isset($_POST["direccion"])) {
+			$nombre = $_POST['nombre'];
+			$apellido = $_POST['apellido'];
+			$direccion = $_POST['direccion'];
 
-	Factura::agregarFactura($link, $nombre, $apellido, $direccion);
+			Factura::agregarFactura($link, $nombre, $apellido, $direccion);
+		}
 	?>
 </body>
 </html>
