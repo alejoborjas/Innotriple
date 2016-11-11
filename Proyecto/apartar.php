@@ -27,14 +27,24 @@
   		<input type="submit">
   		<br>
 	</form>
-	<?php
-		if (isset($_POST["nombre"]) && isset($_POST["apellido"]) && isset($_POST["direccion"]) && isset($_POST["pulsera"])) {
-			$usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['direccion']);
-			$id_usuario = $usuario->agregarUsuario($link);
-			$factura = new Factura($id_usuario, $_POST["pulsera"]);
-			echo "<h1>FACTURA:</h1><br>";
-			$factura->generarFactura($link);
-		}
-	?>
+	<div id="div-factura">
+		<?php
+			if (isset($_POST["nombre"]) && isset($_POST["apellido"]) && isset($_POST["direccion"]) && isset($_POST["pulsera"])) {
+				$usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['direccion']);
+				$id_usuario = $usuario->agregarUsuario($link);
+				$factura = new Factura($id_usuario, $_POST["pulsera"]);
+				$factura->agregarFactura($link);
+				echo "<h1>FACTURA #".$factura->getCodigoFactura()." :</h1><br>";
+				$factura->generarFactura($link);
+			?> 
+			<button onclick="eliminarApartado(<?php echo $factura->getCodigoFactura(); ?>)">Eliminar apartado</button> 
+			<?php
+				$pulsera = new Pulsera($_POST["pulsera"], null, null, null);
+				$pulsera->disminuirPulseras($link);
+			}
+		?>
+	</div>
+	<script src="js/jquery-1.11.1.js"></script>
+	<script src="controladores/controlador.js"></script>
 </body>
 </html>

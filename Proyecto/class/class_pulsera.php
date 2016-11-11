@@ -100,6 +100,27 @@ class Pulsera
         echo "</select>";
         $conexion->liberarResultado($resultado);
     }
+
+    public function disminuirPulseras($conexion){
+        $sql = sprintf("
+            SELECT codigo_pulsera, disponibles
+            FROM tbl_pulseras
+            WHERE codigo_pulsera = '%s'",
+        $this->codigo);
+
+        $fila = $conexion->obtenerFila($conexion->ejecutarInstruccion($sql));
+
+        $sql = sprintf("
+            UPDATE tbl_pulseras 
+            SET disponibles = '%s'
+            WHERE codigo_pulsera = '%s'",
+            $fila["disponibles"]-1,
+            $this->codigo
+        );
+
+        $conexion->ejecutarInstruccion($sql);
+    }
+
 }
 
 ?>

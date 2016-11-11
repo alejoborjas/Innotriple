@@ -41,8 +41,17 @@
 	            $this->apellido,
 	            $this->direccion
 	        );
-	    	$ingreso = $conexion->ejecutarInstruccion($sql);
+	    	$conexion->ejecutarInstruccion($sql);
 	    	return $conexion->obtenerFila($conexion->ejecutarInstruccion("SELECT last_insert_id() as id;"))["id"];
+	    }
+
+	    public static function eliminarUsuario($conexion, $codigo_usuario){
+	        $sql = sprintf("
+	            DELETE FROM tbl_usuarios
+	            WHERE codigo_usuario = '%s'",
+	        $codigo_usuario
+	        );
+	        $conexion->ejecutarInstruccion($sql);
 	    }
 
 		function guardarCuenta($usuario){
